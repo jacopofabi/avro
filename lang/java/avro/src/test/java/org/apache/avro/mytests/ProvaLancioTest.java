@@ -15,26 +15,73 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.avro.mytests;
+package org.apache.avro;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.Level;
 
+import org.apache.avro.Schema.Type;
+import org.apache.avro.file.DataFileStream;
+import org.apache.avro.file.DataFileWriter;
+import org.apache.avro.generic.GenericDatumReader;
+import org.apache.avro.generic.GenericDatumWriter;
+import org.junit.Rule;
 import org.junit.Test;
-import org.slf4j.Logger;
+import org.junit.rules.TemporaryFolder;
 
 public class ProvaLancioTest {
-    
-    public ProvaLancioTest () {
-        // Costruttore
+
+  @Rule
+  public TemporaryFolder DIR = new TemporaryFolder();
+
+  @Test(expected = AvroRuntimeException.class)
+  public void testUseReservedMeta() throws IOException {
+    try (DataFileWriter<?> w = new DataFileWriter<>(new GenericDatumWriter<>())) {
+      w.setMeta("avro.foo", "bar");
     }
-    
-    @Test
-    public void dummyTest() throws IOException {
-        int parameter = 5;
-        assertEquals(5, parameter);
+  }
+
+  @Test()
+  public void testUseMeta() throws IOException {
+    File f = new File(DIR.getRoot().getPath(), "testDataFileMeta.avro");
+    try (DataFileWriter<?> w = new DataFileWriter<>(new GenericDatumWriter<>())) {
+      w.setMeta("hello", "bar");
+      w.create(Schema.create(Type.NULL), f);
     }
+
+    try (DataFileStream<Void> r = new DataFileStream<>(new FileInputStream(f), new GenericDatumReader<>())) {
+      assertTrue(r.getMetaKeys().contains("hello"));
+
+      assertEquals("bar", r.getMetaString("hello"));
+    }
+
+  }
+
+  @Test(expected = AvroRuntimeException.class)
+  public void testUseMetaAfterCreate() throws IOException {
+    try (DataFileWriter<?> w = new DataFileWriter<>(new GenericDatumWriter<>())) {
+      w.create(Schema.create(Type.NULL), new ByteArrayOutputStream());
+      w.setMeta("foo", "bar");
+    }
+
+  }
+
+  @Test
+  public void testBlockSizeSetInvalid() {
+    int exceptions = 0;
+    for (int i = -1; i < 33; i++) {
+      // 33 invalid, one valid
+      try {
+        new DataFileWriter<>(new GenericDatumWriter<>()).setSyncInterval(i);
+      } catch (IllegalArgumentException iae) {
+        exceptions++;
+      }
+    }
+    assertEquals(33, exceptions);
+  }
 }
