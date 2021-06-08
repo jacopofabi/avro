@@ -65,6 +65,21 @@
     <exec-plugin.version>3.0.0</exec-plugin.version>
     <file-management.version>3.0.0</file-management.version>
     <javacc-plugin.version>2.6</javacc-plugin.version>
+	
+	
+	<!-- SONAR -->
+	<sonar.host.url>http://sonarcloud.io</sonar.host.url>
+	<sonar.organization>jacopofabi</sonar.organization>
+	<!--<sonar.projectKey>jacopofabi_avro</sonar.projectKey>-->
+	<sonar.projectName>avro</sonar.projectName>
+	<sonar.login>841430d7c783c98e9b8b4289d18395894be4d3d1</sonar.login>
+	<sonar.language>java</sonar.language>
+	<sonar.java.source>11</sonar.java.source>
+	<sonar.java.file.suffixes>.java</sonar.java.file.suffixes>
+	<sonar.verbose>true</sonar.verbose>
+	<aggregate.report.dir>my_tests/target/site/jacoco-aggregate/jacoco.xml</aggregate.report.dir>
+	<redirectTestOutputToFile>true</redirectTestOutputToFile>
+	
   </properties>
 
   <modules>
@@ -83,6 +98,7 @@
     <module>grpc</module>
     <module>integration-test</module>
     <module>perf</module>
+	<module>my_tests</module>
   </modules>
 
   <build>
@@ -223,6 +239,31 @@
           <artifactId>spotless-maven-plugin</artifactId>
           <version>${spotless-maven-plugin.version}</version>
         </plugin>
+		
+		<plugin>
+		<groupId>org.sonarsource.scanner.maven</groupId>
+		<artifactId>sonar-maven-plugin</artifactId>
+		<version>3.6.0.1398</version>
+	</plugin>
+	<plugin>
+		<groupId>org.jacoco</groupId>
+		<artifactId>jacoco-maven-plugin</artifactId>
+		<version>${jacoco-maven-plugin.version}</version>
+		<executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+	</plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -461,6 +502,36 @@
       <properties>
         <hadoop.version>2.10.1</hadoop.version>
       </properties>
+    </profile>
+	
+		 <!-- JaCoCo plugin to configure coverage report-->
+  	 <!-- prepare-agent: configure JaCoCo to collect coverage data, generating jacoco.exec in the default directory "target" -->
+  	 <!-- report: create a report in various format in the directory ${project.reporting.outputDirectory}/jacoco -->
+    <profile>
+      <id>coverage</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco-maven-plugin.version}</version>
+            <executions>
+              <execution>
+               	<id>report</id>
+               	<phase>verify</phase>
+               	<goals>
+			  		<!-- tutti i moduli hanno nel pom il plugin jacoco e generano il report di coverage nella fase verify maven -->
+			  		<!-- quando viene effettuata la build, i vari report vengono aggregati per il calcolo totale del coverage su tutti i moduli del progetto -->
+               		<goal>report-aggregate</goal>
+               	</goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 
