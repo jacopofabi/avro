@@ -327,9 +327,9 @@
         <configuration>
           <java>
             <eclipse>
-              <!-- Avro uses Sun's java code style conventions with 2 spaces, this is a modified version of
-                   the eclipse formatter -->
- <!--             <file>${main.basedir}/lang/java/eclipse-java-formatter.xml</file>
+              Avro uses Sun's java code style conventions with 2 spaces, this is a modified version of
+                   the eclipse formatter
+              <file>${main.basedir}/lang/java/eclipse-java-formatter.xml</file>
               <version>4.19.0</version>
             </eclipse>
             <removeUnusedImports/>
@@ -342,8 +342,8 @@
         </configuration>
         <executions>
           <execution>
-            <!-- Runs in compile phase to fail fast in case of formatting issues.-->
-<!--            <id>spotless-check</id>
+            Runs in compile phase to fail fast in case of formatting issues.
+            <id>spotless-check</id>
             <phase>compile</phase>
             <goals>
               <goal>check</goal>
