@@ -27,7 +27,7 @@
     <relativePath>../</relativePath>
   </parent>
 
-  <artifactId>avro</artifactId>
+  <artifactId>avro-child</artifactId>
 
   <name>Apache Avro</name>
   <url>https://avro.apache.org</url>
