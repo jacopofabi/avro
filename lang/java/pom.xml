@@ -83,14 +83,14 @@
 
   <modules>
     <module>avro-child</module>
-    <module>compiler</module>
     <module>maven-plugin</module>
+	<!-- <module>compiler</module> -->
     <module>ipc</module>
     <module>ipc-jetty</module>
     <module>ipc-netty</module>
     <module>trevni</module>
     <module>tools</module>
-    <module>mapred</module>
+    <!-- <module>mapred</module> -->
     <module>protobuf</module>
     <module>thrift</module>
     <module>archetypes</module>
