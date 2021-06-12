@@ -29,8 +29,8 @@
     <name>Apache Avro :: NewTests</name>
 
     <properties>
-		<!-- Report XML recuperato da Sonar nella directory ..../bookkeeper/my_tests//target/site/jacoco-aggregate/jacoco.xml -->
-        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
+		<!-- Report XML recuperato da Sonar nella directory /avro/lang/java/my_tests//target/site/jacoco-aggregate/jacoco.xml -->
+        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <dependencies>
