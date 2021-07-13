@@ -122,7 +122,7 @@ public abstract class Schema extends JsonProperties implements Serializable {
 
   /** The type of a schema. */
   public enum Type {
-    RECORD, ENUM, ARRAY, MAP, UNION, FIXED, STRING, BYTES, INT, LONG, FLOAT, DOUBLE, BOOLEAN, NULL;
+    RECORD, ENUM, ARRAY, MAP, UNION, FIXED, STRING, BYTES, INT, LONG, FLOAT, DOUBLE, BOOLEAN, NULL, OTHER;
 
     private final String name;
 

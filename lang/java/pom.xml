@@ -34,6 +34,12 @@
   <properties>
     <main.basedir>${project.parent.basedir}</main.basedir>
 
+    <!-- dependecies for coverage profile -->
+    <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version> 
+    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+    <jacoco-maven-plugin.version>0.8.0</jacoco-maven-plugin.version>
+    <pitest.version>1.5.2</pitest.version>
+	
     <!-- version properties for dependencies -->
 	<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
     <hadoop.version>3.3.0</hadoop.version>
@@ -71,7 +77,7 @@
 	<sonar.organization>jacopofabi</sonar.organization>
 	<!--<sonar.projectKey>jacopofabi_avro</sonar.projectKey>-->
 	<sonar.projectName>avro</sonar.projectName>
-	<sonar.login>841430d7c783c98e9b8b4289d18395894be4d3d1</sonar.login>
+	<sonar.login>ab82af2049704581231b926dfa8721330c2087e1</sonar.login>
 	<sonar.language>java</sonar.language>
 	<sonar.java.source>11</sonar.java.source>
 	<sonar.java.file.suffixes>.java</sonar.java.file.suffixes>
@@ -165,41 +171,7 @@
             </archive>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <configuration>
-            <includes>
-              <!-- Avro naming convention for JUnit tests -->
-              <include>**/Test**</include>
-            </includes>
-            <excludes>
-              <!-- A few innner classes are not to be tested -->
-              <exclude>**/*$*</exclude>
-              <!-- exclude the generated classes under apache.avro.test, some of
-                these match **/Test** and are not JUnit tests -->
-              <exclude>**/apache/avro/test/**</exclude>
-            </excludes>
-            <enableAssertions>false</enableAssertions>
-            <trimStackTrace>false</trimStackTrace>
-            <runOrder>random</runOrder>
-            <parallel>all</parallel>
-            <useUnlimitedThreads>true</useUnlimitedThreads>
-            <!--<perCoreThreadCount>true</perCoreThreadCount>-->
-
-            <!-- TestSpecificCompiler instantiates a Java compiler to test output results,
-                 this does not work with a manifest-only-jar to set the classpath for the javac.
-                 This may cause problems on some platforms.
-                 See https://maven.apache.org/plugins/maven-surefire-plugin/examples/class-loading.html
-                 for more information. -->
-            <useManifestOnlyJar>false</useManifestOnlyJar>
-            <!-- configures unit test standard error and standard out to go to a file per test
-                 rather than the console. -->
-            <redirectTestOutputToFile>true</redirectTestOutputToFile>
-            <failIfNoTests>false</failIfNoTests>
-            <argLine>-Xmx1000m</argLine>
-          </configuration>
-        </plugin>
+	  
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
@@ -244,25 +216,6 @@
 		<artifactId>sonar-maven-plugin</artifactId>
 		<version>3.6.0.1398</version>
 	</plugin>
-	<plugin>
-		<groupId>org.jacoco</groupId>
-		<artifactId>jacoco-maven-plugin</artifactId>
-		<version>${jacoco-maven-plugin.version}</version>
-		<executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-	</plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -305,6 +258,61 @@
   </reporting>
 
   <profiles>
+  
+  <profile>
+
+      <id>code-coverage</id>
+
+      <activation>
+        <property>
+          <name>coverage</name>  <!-- use as: mvn <goals> -Dcoverage=true -->
+          <value>true</value>
+        </property>
+	    </activation>
+
+      <build>
+        <plugins>
+
+          <plugin>
+            <groupId>org.eluder.coveralls</groupId>
+            <artifactId>coveralls-maven-plugin</artifactId>
+            <version>${coveralls-maven-plugin.version}</version>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${maven-surefire-plugin.version}</version>
+            <configuration>
+
+              <argLine>@{argLine} -Xmx2G -Djava.net.preferIPv4Stack=true</argLine>
+              <redirectTestOutputToFile>${redirectTestOutputToFile}</redirectTestOutputToFile>
+              <forkCount>${forkCount.variable}</forkCount>
+              <reuseForks>false</reuseForks>
+              <forkedProcessTimeoutInSeconds>1800</forkedProcessTimeoutInSeconds>
+
+              <testFailureIgnore>true</testFailureIgnore>
+            </configuration>
+          </plugin>
+        
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+	
+	
     <profile>
       <id>m2e</id>
       <activation>

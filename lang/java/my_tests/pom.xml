@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <!--
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -15,55 +15,70 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>avro-parent</artifactId>
-        <groupId>org.apache.avro</groupId>
-        <version>1.11.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>avro-parent</artifactId>
+    <groupId>org.apache.avro</groupId>
+    <version>1.11.0-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
+  
+  <artifactId>mytests</artifactId>
+  <name>Apache Avro :: MyTests</name>
 
-    <artifactId>my_tests</artifactId>
-    <name>Apache Avro :: NewTests</name>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <main.basedir>${project.parent.parent.basedir}</main.basedir>
+  </properties>
 
-    <properties>
-		<!-- Report XML recuperato da Sonar nella directory /avro/lang/java/my_tests//target/site/jacoco-aggregate/jacoco.xml -->
-        <sonar.coverage.jacoco.xmlReportPaths>${basedir}/../../${aggregate.report.dir}</sonar.coverage.jacoco.xmlReportPaths>
-    </properties>
+  <profiles>
+    <profile>
 
-    <dependencies>
-        <dependency>
+      <id>aggregate-code-coverage</id>
+    
+      <activation>
+        <property>
+          <name>coverage</name>  <!-- use as: mvn <goals> -Dcoverage=true -->
+          <value>true</value>
+        </property>
+	    </activation>
+
+        <dependencies>
+
+          <dependency>
+            <artifactId>avro-child</artifactId>
             <groupId>org.apache.avro</groupId>
-            <artifactId>avro</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-    </dependencies>
+            <version>1.11.0-SNAPSHOT</version>
+          </dependency>
 
-    <build>
-        <plugins>
+        </dependencies>
+
+        <build>
+          <plugins>
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
+              <groupId>org.jacoco</groupId>
+              <artifactId>jacoco-maven-plugin</artifactId>
+              <version>${jacoco-maven-plugin.version}</version>
+              <executions>
+                <execution>
+                  <id>report</id>
+                  <phase>test</phase>
+                  <goals>
+                    <goal>report-aggregate</goal>
+                  </goals>
+                </execution>
+              </executions>
             </plugin>
-        </plugins>
-    </build>
+          </plugins>
+        </build>
 
+    </profile>
+  </profiles>
+
+  
+
+  
 
 </project>
