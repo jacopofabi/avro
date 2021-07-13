@@ -261,14 +261,10 @@
   
   <profile>
 
-      <id>code-coverage</id>
-
+      <id>coverage</id>
       <activation>
-        <property>
-          <name>coverage</name>  <!-- use as: mvn <goals> -Dcoverage=true -->
-          <value>true</value>
-        </property>
-	    </activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
 
       <build>
         <plugins>
@@ -459,36 +455,7 @@
         <hadoop.version>2.10.1</hadoop.version>
       </properties>
     </profile>
-	
-		 <!-- JaCoCo plugin to configure coverage report-->
-  	 <!-- prepare-agent: configure JaCoCo to collect coverage data, generating jacoco.exec in the default directory "target" -->
-  	 <!-- report: create a report in various format in the directory ${project.reporting.outputDirectory}/jacoco -->
-    <profile>
-      <id>coverage</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco-maven-plugin.version}</version>
-            <executions>
-              <execution>
-               	<id>report</id>
-               	<phase>verify</phase>
-               	<goals>
-			  		<!-- tutti i moduli hanno nel pom il plugin jacoco e generano il report di coverage nella fase verify maven -->
-			  		<!-- quando viene effettuata la build, i vari report vengono aggregati per il calcolo totale del coverage su tutti i moduli del progetto -->
-               		<goal>report-aggregate</goal>
-               	</goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+
   </profiles>
 
   <!-- dependencyManagement can be used to define dependency versions, scopes, and

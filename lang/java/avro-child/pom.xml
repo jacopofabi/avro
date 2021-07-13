@@ -76,14 +76,10 @@
   <profiles>
   <profile>
 
-      <id>mutation-testing-avro</id>
-
+      <id>mutation</id>
       <activation>
-        <property>
-          <name>mutation</name>  <!-- use as: mvn <goals> -Dmutation=true -->
-          <value>true</value>
-        </property>
-	    </activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
 
       <build>
         <plugins>
