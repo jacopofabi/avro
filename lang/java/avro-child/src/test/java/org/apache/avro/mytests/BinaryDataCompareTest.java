@@ -62,11 +62,11 @@ public class BinaryDataCompareTest {
 			{getBS(Schema.Type.INT, true), getBS(Schema.Type.DOUBLE, false), 0, 0, getS(Schema.Type.MAP), AvroRuntimeException.class},
 			{getBS(Schema.Type.INT, true), getBS(Schema.Type.DOUBLE, false), 0, 0, getS(Schema.Type.NULL), 0},
 			{getBS(Schema.Type.STRING, true), getBS(Schema.Type.STRING, false), 0, 0, getS(Schema.Type.STRING), 35},
-			{getBS(Schema.Type.INT, true), getBS(Schema.Type.DOUBLE, false), 0, 0, getS(Schema.Type.UNION), AvroRuntimeException.class}
+			{getBS(Schema.Type.INT, true), getBS(Schema.Type.DOUBLE, false), 0, 0, getS(Schema.Type.UNION), AvroRuntimeException.class},
 
 			//Aggiunti dopo miglioramento della test suite
-			//{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, false), 1, 0, getS(Schema.Type.ARRAY), 1},
-			//{getBS(Schema.Type.RECORD, true), getBS(Schema.Type.RECORD, true), 0, 0, getS(Schema.Type.RECORD), 0},
+			{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, false), 1, 0, getS(Schema.Type.ARRAY), 1},
+			{getBS(Schema.Type.RECORD, true), getBS(Schema.Type.RECORD, true), 0, 0, getS(Schema.Type.RECORD), 0}
 			//{getBS(Schema.Type.LONG, false), getBS(Schema.Type.LONG, true),0, 0, getS(Schema.Type.LONG), -1},
 			
 			//Mutazioni
