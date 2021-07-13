@@ -15,5 +15,5 @@ addons:
         
 script:
   - sh bash/install_sonar.sh
-  - mvn "-Dtest=org/apache/bookkeeper/mytests/*Test" -DfailIfNoTests=false clean verify -Dcoverage=true
-  - sonar-scanner -Dsonar.login=ab82af2049704581231b926dfa8721330c2087e1
+  - mvn "-Dtest=org/apache/avro/mytests/*Test" -DfailIfNoTests=false clean verify -Dcoverage=true
+  - sonar-scanner -Dsonar.projectKey=jacopofabi_avro -Dsonar.login=ab82af2049704581231b926dfa8721330c2087e1
