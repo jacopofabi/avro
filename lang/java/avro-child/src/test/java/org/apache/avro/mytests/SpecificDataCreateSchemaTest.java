@@ -43,7 +43,6 @@ public class SpecificDataCreateSchemaTest {
 
   private java.lang.reflect.Type classType;
   private Object result;
-  private static final String ERROR = "Not a Specific class: class java.lang.Exception";
   Collection<String> array = new LinkedList<String>();
   Map<String, String> map = new HashMap<>();
   Map<Integer, Integer> mapInt = new HashMap<>();
