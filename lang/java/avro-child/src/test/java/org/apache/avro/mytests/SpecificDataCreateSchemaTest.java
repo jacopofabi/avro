@@ -137,10 +137,6 @@ public class SpecificDataCreateSchemaTest {
       classType = Fixed.class;
       break;  
       
-    case "record":
-      classType = Record.class;
-      break;
-      
     case "union":
         classType = Union.class;
         break;
