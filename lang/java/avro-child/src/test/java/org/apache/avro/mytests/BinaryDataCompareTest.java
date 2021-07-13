@@ -66,18 +66,19 @@ public class BinaryDataCompareTest {
 
 			//Aggiunti dopo miglioramento della test suite
 			{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, false), 1, 0, getS(Schema.Type.ARRAY), 1},
-			{getBS(Schema.Type.RECORD, true), getBS(Schema.Type.RECORD, true), 0, 0, getS(Schema.Type.RECORD), 0}
+			{getBS(Schema.Type.RECORD, true), getBS(Schema.Type.RECORD, true), 0, 0, getS(Schema.Type.RECORD), 0},
+			{getBS(Schema.Type.FLOAT, true), getBS(Schema.Type.FLOAT, true), 0, 0, getS(Schema.Type.FLOAT), 0},
 			
 			//Mutazioni
-			//{getBS(Schema.Type.FIXED, true), getBS(Schema.Type.FIXED, false), 0, 0, getS(Schema.Type.FIXED), -1},
-			//{getBS(Schema.Type.UNION, false), getBS(Schema.Type.UNION, true), 1, 0, getS(Schema.Type.UNION), 1},
-			//{getBS(Schema.Type.STRING, false), getBS(Schema.Type.STRING, true), 1, 0, getS(Schema.Type.STRING), -35},
-			//{getBS(Schema.Type.BOOLEAN, true), getBS(Schema.Type.BOOLEAN, false), 0, 0, getS(Schema.Type.BOOLEAN), 1},
-			//{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, false), 0, 1, getS(Schema.Type.ARRAY), 1},
-			//{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, true), 0, 0, getS(Schema.Type.ARRAY), 0},
-			//{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, true), 0, 1, getS(Schema.Type.ARRAY), -1},
-
-			//{getBS(Schema.Type.LONG, true), getBS(Schema.Type.LONG, true), 0, 0, getS(Schema.Type.LONG), 0},
+			{getBS(Schema.Type.BOOLEAN, true), getBS(Schema.Type.BOOLEAN, false), 0, 0, getS(Schema.Type.BOOLEAN), 1},
+			{getBS(Schema.Type.FLOAT, true), getBS(Schema.Type.FLOAT, false), 0, 0, getS(Schema.Type.FLOAT), -1},
+			{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, false), 0, 1, getS(Schema.Type.ARRAY), 1},
+			{getBS(Schema.Type.UNION, false), getBS(Schema.Type.UNION, true), 1, 0, getS(Schema.Type.UNION), 1},
+			{getBS(Schema.Type.FIXED, true), getBS(Schema.Type.FIXED, false), 0, 0, getS(Schema.Type.FIXED), -1},
+			{getBS(Schema.Type.STRING, false), getBS(Schema.Type.STRING, true), 1, 0, getS(Schema.Type.STRING), -35},
+			{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, true), 0, 0, getS(Schema.Type.ARRAY), 0},
+			{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, true), 0, 1, getS(Schema.Type.ARRAY), -1},
+			{getBS(Schema.Type.LONG, true), getBS(Schema.Type.LONG, true), 0, 0, getS(Schema.Type.LONG), 0}
 		});
 	}
 
@@ -92,7 +93,6 @@ public class BinaryDataCompareTest {
 
 	@Test
 	public void testCompare() {
-
 		try {
 			Assert.assertEquals(result, BinaryData.compare(b1, s1, b2, s2, schema));
 		} catch (Exception e) {
@@ -161,7 +161,7 @@ public class BinaryDataCompareTest {
 				binaryEncoder1.writeFloat(100000);
 
 			} else {
-				binaryEncoder1.writeFloat(100000);
+				binaryEncoder1.writeFloat(100001);
 			}
 			binaryEncoder1.flush();
 			byteForSchema = byteArrayOutputStream1.toByteArray();	
