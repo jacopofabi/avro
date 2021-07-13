@@ -67,7 +67,6 @@ public class BinaryDataCompareTest {
 			//Aggiunti dopo miglioramento della test suite
 			{getBS(Schema.Type.ARRAY, true), getBS(Schema.Type.ARRAY, false), 1, 0, getS(Schema.Type.ARRAY), 1},
 			{getBS(Schema.Type.RECORD, true), getBS(Schema.Type.RECORD, true), 0, 0, getS(Schema.Type.RECORD), 0}
-			//{getBS(Schema.Type.LONG, false), getBS(Schema.Type.LONG, true),0, 0, getS(Schema.Type.LONG), -1},
 			
 			//Mutazioni
 			//{getBS(Schema.Type.FIXED, true), getBS(Schema.Type.FIXED, false), 0, 0, getS(Schema.Type.FIXED), -1},
